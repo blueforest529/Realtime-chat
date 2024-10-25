@@ -1,0 +1,65 @@
+spring:
+  application:
+    name:
+      speakly-be
+  config:
+    import: application-secret.yml
+  datasource:
+    url: jdbc:mysql://localhost:3306/speakly
+    username: speakly
+    password: speakly
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  hikari:
+    maximumPoolSize: 10
+    connection-timeout: 250
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${kakao.client-id}
+            client-secret: ${kakao.client-secret}
+            client-authentication-method: client_secret_post
+            authorization-grant-type: authorization_code
+            redirect-uri: ${kakao.redirect-uri}
+            scope:
+              - profile_nickname
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+  elasticsearch:
+    username: elastic
+    password: 5DpiXcjcNGLpZC7qRTKp
+
+logging:
+  level:
+    org:
+      springframework-web: debug
+      hibernate: debug
+
+frontend:
+  url: http://localhost:3000
+
+jwt:
+  secret: ${jwt.secret}
+  expiration: 36000000
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /speakly-api
