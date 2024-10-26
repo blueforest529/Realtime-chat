@@ -78,7 +78,9 @@ dependencies {
 
     // Elasticsearch
     // https://mvnrepository.com/artifact/org.springframework.data/spring-data-elasticsearch
+    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
     implementation("org.springframework.data:spring-data-elasticsearch:5.3.2")
+    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.0")
 
     //swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
