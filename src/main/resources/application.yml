@@ -50,6 +50,11 @@ logging:
     org:
       springframework-web: debug
       hibernate: debug
+      springframework:
+        web:
+          socket: DEBUG
+          cors: DEBUG
+        messaging: DEBUG
 
 frontend:
   url: http://localhost:3000

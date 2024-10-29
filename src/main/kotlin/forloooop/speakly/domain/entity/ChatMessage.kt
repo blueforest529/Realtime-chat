@@ -1,29 +1,32 @@
 package forloooop.speakly.domain.entity
 
-import io.hypersistence.utils.hibernate.id.Tsid
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "chat_message")
-class ChatMessage {
+data class ChatMessage(
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0L,
+    val sender: String,
+    val content: String,
+    val timestamp: Long = System.currentTimeMillis(),
+    var type: MessageType,
 
-    @Id
-    @Tsid
-    var id: Long? = null
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    val room: ChatRoom,
 
-    val accountId: Long = 0
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_room_id") // 외래 키 생성
+    val chatRoom: ChatRoom,
 
-    @Column(nullable = false)
-    var content: String = ""
-
-    @Column(nullable = false)
-    var createdAt: LocalDateTime = LocalDateTime.now()
-
-    @Column(nullable = true)
-    var updatedAt: LocalDateTime? = null
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
-    lateinit var topic: Topic
+    val topic: Topic, // Topic 필드 추가
+
+    val createdAt: LocalDateTime = LocalDateTime.now() // 생성 시각 필드 추가
+)
+
+enum class MessageType {
+    CHAT, JOIN, LEAVE
 }
