@@ -1,5 +1,6 @@
 package forloooop.speakly.domain.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity
@@ -8,6 +9,9 @@ data class ChatRoom(
     val id: Long = 0L,
     val name: String,
 
-    @OneToMany(mappedBy = "chatRoom", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    val messages: MutableList<ChatMessage> = mutableListOf() // ChatMessage와의 일대다 관계
-)
+    @OneToMany(mappedBy = "room", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @JsonIgnore
+    val messages: MutableList<ChatMessage> = mutableListOf()
+){
+    constructor() : this(name = "")
+}

@@ -44,6 +44,12 @@ spring:
   elasticsearch:
     username: elastic
     password: 5DpiXcjcNGLpZC7qRTKp
+  redis:
+    host: localhost
+    port: 6379
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
 
 logging:
   level:
