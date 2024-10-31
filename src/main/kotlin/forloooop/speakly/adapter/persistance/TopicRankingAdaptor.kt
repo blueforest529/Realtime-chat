@@ -12,7 +12,6 @@ class TopicRankingAdaptor(
     private val topicRepository: TopicRepository,
     private val chatMessageRepository: ChatMessageRepository
 ) : TopicRankingOutput {
-
     override fun getTopicsWithRankingData(fromDate: LocalDateTime): List<TopicResponseGroup.TopicRankingResponse> {
         val topics = topicRepository.findAllByOrderByNumberOfAttendeeDesc()
 
