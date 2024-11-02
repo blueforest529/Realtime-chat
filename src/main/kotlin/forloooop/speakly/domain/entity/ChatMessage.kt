@@ -15,8 +15,3 @@ data class ChatMessage (
     val createdAt: LocalDateTime = LocalDateTime.now()
 ) {
 }
-
-
-enum class MessageType {
-    CHAT, JOIN, LEAVE
-}

@@ -13,9 +13,5 @@ interface ChatMessageRepository : JpaRepository<ChatMessage, Long> {
 
     fun countBySenderAndCreatedAtAfter(sender: String, createdAt: LocalDateTime): Long
 
-
-//    fun findByRoom(room: ChatRoom): List<ChatMessage>
-
     override fun deleteById(chatMessageId: Long)
-
 }

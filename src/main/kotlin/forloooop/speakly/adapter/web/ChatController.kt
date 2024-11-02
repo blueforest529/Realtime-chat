@@ -2,25 +2,31 @@ package forloooop.speakly.adapter.web
 
 import forloooop.speakly.application.service.ChatService
 import forloooop.speakly.domain.entity.ChatMessage
-import forloooop.speakly.domain.entity.MessageType
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.messaging.handler.annotation.MessageMapping
+import org.springframework.messaging.handler.annotation.Payload
+import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 
 @Controller
 class ChatController(
-    private val chatService: ChatService
+    private val messagingTemplate: SimpMessagingTemplate,
+    private val chatService: ChatService,
+    private val redisTemplate: RedisTemplate<String, Any>
 ) {
 
-    @GetMapping
-    fun getAllMessages(): List<ChatMessage> {
-        return chatService.getAllMessages()
-    }
+    @MessageMapping("/sendMessage")
+    fun receiveMessage(@Payload message: ChatMessage) {
+        try {
+            val savedMessage = chatService.processMessage(message)
 
-    @PostMapping
-    fun sendMessage(@RequestBody chatMessage: ChatMessage): ChatMessage {
-        return chatService.processMessage(chatMessage)
+            messagingTemplate.convertAndSend("/topic/messages", savedMessage)
+            
+            // Redis에 메시지 발행
+            redisTemplate.convertAndSend("chatChannel", savedMessage)
+        } catch (e: Exception) {
+            println("Error processing message: ${e.message}")
+            e.printStackTrace()
+        }
     }
 }

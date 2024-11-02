@@ -16,22 +16,21 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 class WebSocketConfig : WebSocketMessageBrokerConfigurer {
     override fun configureMessageBroker(config: MessageBrokerRegistry) {
-        config.enableSimpleBroker("/topic") // /topic 경로를 구독용으로 설정
-        config.setApplicationDestinationPrefixes("/app") // /app 경로를 메시지 발행용으로 설정
+        config.enableSimpleBroker("/topic") // 메시지 브로커 경로
+        config.setApplicationDestinationPrefixes("/app") // 메시지 전송 경로
     }
 
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
-        registry.addEndpoint("/ws")
-            .setAllowedOriginPatterns("*") // 모든 출처 허용
+        registry.addEndpoint("/chat")
+            .setAllowedOrigins("*")
             .withSockJS()
     }
-
     override fun configureMessageConverters(messageConverters: MutableList<MessageConverter>): Boolean {
         val converter = MappingJackson2MessageConverter()
         converter.objectMapper = jacksonObjectMapper()
-            .registerModule(JavaTimeModule()) // Java 8 LocalDateTime 모듈 추가
+            .registerModule(JavaTimeModule())
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         messageConverters.add(converter)
-        return false
+        return true
     }
 }
