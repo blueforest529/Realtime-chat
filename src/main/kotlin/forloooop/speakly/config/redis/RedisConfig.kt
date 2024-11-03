@@ -51,11 +51,13 @@ class RedisConfig(
         return ChannelTopic("chatChannel")
     }
 
+
+    // Redis 메세지를 구독하고 처리하는 리스너 컨테이너
     @Bean
     fun redisMessageListenerContainer(connectionFactory: RedisConnectionFactory): RedisMessageListenerContainer {
         val container = RedisMessageListenerContainer()
         container.setConnectionFactory(connectionFactory)
-        container.addMessageListener(MessageListenerAdapter(redisListenerService), ChannelTopic("chatChannel"))
+        container.addMessageListener(MessageListenerAdapter(redisListenerService), ChannelTopic("chatChannel")) //chatChannel에서 메세지가 수신 될 때, redisListenerService 호출
         container.setTaskExecutor(Executors.newFixedThreadPool(1)) // 스레드 풀 크기 제한
         return container
     }

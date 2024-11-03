@@ -20,6 +20,7 @@ class ChatController(
         try {
             val savedMessage = chatService.processMessage(message)
 
+            // /topic/messages 를 구독하고 있는 클라이언트에게 메시지 전송
             messagingTemplate.convertAndSend("/topic/messages", savedMessage)
             
             // Redis에 메시지 발행
