@@ -93,6 +93,9 @@ dependencies {
 
     //jackson
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
+    //http
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.4")
 }
 
 kotlin {

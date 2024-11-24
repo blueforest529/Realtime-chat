@@ -22,6 +22,4 @@ class TagService(
         val tags = tagOutput.register(tagNames)
         return tags.map { TagApiResponseGroup.TagApiResponse(it) }
     }
-
-
 }

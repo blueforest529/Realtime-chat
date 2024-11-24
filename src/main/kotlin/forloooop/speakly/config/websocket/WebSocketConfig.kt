@@ -25,6 +25,7 @@ class WebSocketConfig : WebSocketMessageBrokerConfigurer {
             .setAllowedOrigins("*")
             .withSockJS()
     }
+
     override fun configureMessageConverters(messageConverters: MutableList<MessageConverter>): Boolean {
         val converter = MappingJackson2MessageConverter()
         converter.objectMapper = jacksonObjectMapper()
